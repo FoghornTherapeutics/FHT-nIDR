@@ -42,7 +42,7 @@ In this example, we compare the reproducibility between 3 replicates called A1, 
 **Step 4**: Compute the min percent rank of the shuffled distribution for each peak over the three replicates. In other words, we compute the percent rank of each replicates, i.e., we have three percent rank for each replicate. Then we only keep the minimum of the percent rank for each peak id. <br/>
 **Step 5**: Compute the ECDF and select the min percentage rank that corresponds to keeping above 90% of the reads.  In this example, the min percent rank is around 0.53. <br/>
 **Step 6**: Filter all peak id that have a min percent rank lower than the selected threshold from the null distribution. <br/>
-**Step 7**: Plot the ECDF of the min percent rank of the true logFC (red) and the null distribution (blue) with the threshold (green) to compare them. We expect to to see the null distribution above the real one and the threshold around where they have the bggest discreapancy. <br/>
+**Step 7**: Plot the ECDF of the min percent rank of the true logFC (red) and the null distribution (blue) with the threshold (green) to compare them. We expect to to see the null distribution above the real one and the threshold around where they have the biggest discreapancy. <br/>
 
 
 
