@@ -7,8 +7,8 @@ This method can only compare a pair of repicates. When you have n replicates, yo
 
 # FHT-nIDR data flow
 
-In this example, we compare the reproducibility between 3 replicates called A1, A2 and A3.  
 
+To illustrate the mechanism, we take a group of 3 replicates: A1, A2 and A3.  
 
 **Step 1**: Combine and merge three replicates peak id, peak origin and logFC on the same narrowPeak file. For this step, we use bedtools merge to merge the peaks. In consequence, we can have several logFC from the same replicate. <br/>
 **Step 2**: Reformat bed file with a logFC per replicate and by peak id. If there is logFC from a replicate, the value is 0. When there are several logFC from the same replicates, we compute the average between them. <br/>
