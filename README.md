@@ -5,32 +5,6 @@ The Irreproducible Discovery Rate (IDR) is a method to combine combining replica
 This method can only compare a pair of repicates. When you have n replicates, you the have to compare $\binom{N}{2}$ pair of replicates. If N=4, you then have to compare by hand 6 pair of replicates. We propose another method to highlight the most significant peaks and consitency between replicates with all the replicates at once. 
 
 
-# Data
-
-The standard pipeline is ran on publicly available data from paper "[Chromatin accessibility underlies synthetic lethality of SWI/SNF subunits in ARID1A-mutant cancers](https://elifesciences.org/articles/30506#content)" looking for potential PD markers as well as what an ATAC-seq profile looks like. This paper has ATACseq results of ARID1A-/- cancers with ARID1B KD. 
-
-**Data from GEO series**:  [link](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE101975) <br/>
-Biological context (N=2):  TOV21G, HCT116 <br/>
-wild type and modified with stable ARID1A KO <br/>
-Perturbagens (N=1):  shRNA KD of ARID1B <br/>
-Doses (N/A):  just the shRNA no relevant dose <br/>
-Negative control (N=1):  wild type / untreated <br/>
-Replicates:  N=2
-
-
-
-### HCT116 (ACH-000971)
-* WT: SRR5876158 & SRR5876159
-* ARID1B knockdown: SRR5876160 & SRR5876161
-* ARID1A knockout: SRR5876162 & SRR5876163
-* ARID1A knockout ARID1B knockdown:SRR5876164 & SRR5876165
-
-### TOV21G (ACH-000885)
-* WT: SRR5876661 & SRR5876662
-* ARID1B knockdown: SRR5876663 & SRR5876664
-
-
-
 # FHT-nIDR data flow
 
 In this example, we compare the reproducibility between 3 replicates called A1, A2 and A3.  
@@ -45,21 +19,57 @@ In this example, we compare the reproducibility between 3 replicates called A1, 
 **Step 7**: Plot the ECDF of the min percent rank of the true logFC (red) and the null distribution (blue) with the threshold (green) to compare them. We expect to to see the null distribution above the real one and the threshold around where they have the biggest discreapancy. <br/>
 
 
-<img src="readme_figures/FRIP_outlier.JPG" alt="image" style="width:400px;height:auto;">
-
-<img src="readme_figures/FRIP_outlier.JPG" alt="image" style="width:400px;height:auto;">
-
-<img src="readme_figures/FRIP_outlier.JPG" alt="image" style="width:400px;height:auto;">
+<img src="readme_figures/data_flow.JPG" alt="image" style="width:400px;height:auto;">
 
 
 
+# Example 1
+
+### Data
+
+The standard pipeline is ran on publicly available data from paper "[Chromatin accessibility underlies synthetic lethality of SWI/SNF subunits in ARID1A-mutant cancers](https://elifesciences.org/articles/30506#content)" looking for potential PD markers as well as what an ATAC-seq profile looks like. This paper has ATACseq results of ARID1A-/- cancers with ARID1B KD. 
+
+**Data from GEO series**:  [link](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE101975) <br/>
+Biological context (N=2):  TOV21G, HCT116 <br/>
+wild type and modified with stable ARID1A KO <br/>
+Perturbagens (N=1):  shRNA KD of ARID1B <br/>
+Doses (N/A):  just the shRNA no relevant dose <br/>
+Negative control (N=1):  wild type / untreated <br/>
+Replicates:  N=2
+
+### HCT116 (ACH-000971)
+* WT: SRR5876158 & SRR5876159
+* ARID1B knockdown: SRR5876160 & SRR5876161
+* ARID1A knockout: SRR5876162 & SRR5876163
+* ARID1A knockout ARID1B knockdown:SRR5876164 & SRR5876165
+
+### TOV21G (ACH-000885)
+* WT: SRR5876661 & SRR5876662
+* ARID1B knockdown: SRR5876663 & SRR5876664
+
+In this example, there are only two replicates by group. Therefore, there are only $\binom{N}{2} = 1 $ comparison by group. This data is a good example to first verify that the peaks from the nIDR computation overlap with the standard method. First of all, the output from the standard IDR show that the replicates have high consitency betwen groups.
+ 
+<img src="readme_figures/ARID_paper_standard_IDR.JPG" alt="image" style="width:900px;height:auto;">
+
+
+Then, the standard IDR narrowPeak file and the nIDR narrowPeak file have a great overlapp:
+
+<img src="readme_figures/ARID_paper_nIDR.JPG" alt="image" style="width:900px;height:auto;">
 
 
 
+# Example 2
+
+### Data
+
+In this example, we compare some samples from random data with 3 replicates by group. 
 
 
+# Example 3
 
+### Data
 
+In this example, we compare some samples from random data with 3 replicates by group with 
 
 
 
