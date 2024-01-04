@@ -26,16 +26,16 @@ In this example, we compare the reproducibility between 3 replicates called A1, 
 # Example 1
 
 ### Data
+The standard pipeline was run on publicly available data from paper "[Chromatin accessibility underlies synthetic lethality of SWI/SNF subunits in ARID1A-mutant cancers](https://elifesciences.org/articles/30506#content)" looking for potential PD markers as well as what an ATAC-seq profile looks like. This paper has ATACseq results of ARID1A-/- cancer cell lines (native or CRISPR knockout) with ARID1B knockdown. 
 
-The standard pipeline is ran on publicly available data from paper "[Chromatin accessibility underlies synthetic lethality of SWI/SNF subunits in ARID1A-mutant cancers](https://elifesciences.org/articles/30506#content)" looking for potential PD markers as well as what an ATAC-seq profile looks like. This paper has ATACseq results of ARID1A-/- cancers with ARID1B KD. 
+**Data from GEO series**:  [link](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE101975)
 
-**Data from GEO series**:  [link](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE101975) <br/>
-Biological context (N=2):  TOV21G, HCT116 <br/>
-wild type and modified with stable ARID1A KO <br/>
-Perturbagens (N=1):  shRNA KD of ARID1B <br/>
-Doses (N/A):  just the shRNA no relevant dose <br/>
-Negative control (N=1):  wild type / untreated <br/>
-Replicates:  N=2
+Overview of experiment:
+* Biological context (N=2):  TOV21G, HCT116
+* wild type and modified with stable ARID1A knockout
+* Perturbagens (N=1):  shRNA knockdown of ARID1B
+* Negative control (N=1):  wild type / untreated
+* Replicates:  N=2
 
 ### HCT116 (ACH-000971)
 * WT: SRR5876158 & SRR5876159
@@ -46,6 +46,7 @@ Replicates:  N=2
 ### TOV21G (ACH-000885)
 * WT: SRR5876661 & SRR5876662
 * ARID1B knockdown: SRR5876663 & SRR5876664
+
 
 In this example, there are only two replicates by group. Therefore, there are only $\binom{N}{2} = 1 $ comparison by group. This data is a good example to first verify that the peaks from the nIDR computation overlap with the standard method. First of all, the output from the standard IDR show that the replicates have high consitency betwen groups.
  
