@@ -58,6 +58,8 @@ Then, the standard IDR narrowPeak file and the nIDR narrowPeak file have a great
 <img src="readme_figures/ARID_paper_nIDR.JPG" alt="image" style="width:900px;height:auto;">
 
 
+ADD OUR nIDR ECDF!!!!!!!
+
 
 # Example 2
 
@@ -70,9 +72,25 @@ In this example, we compare some samples from random data with 3 replicates by g
 
 ### Data
 
-In this example, we compare some samples from random data with 3 replicates by group with 
+One of the challenge of this method is to compare all N replicates of a group. However, in the ATACseq pipeline described [here](), we first compute a series of QC measures (multiqc, FRiP, PCA, sample correlations) to identify any potential outliers in a group of replicates. You can find an example [here](). <br/>
+
+This next example compares the nIDR narrowPeak with all 3 replicates of a group with and then without it the outlier in the treated group and the negative control group. 
+
+Overview of experiment:
+* Biological context (N=1): Cell line 1
+* Perturbagens (N=1): treatment
+* Time point (N=1): 24h 
+* Negative control (N=1): wild type / untreated
+* Replicates: N=3
 
 
+Samples A1, A2 and A3 are for the negative control. A1 was identified as an outlier (low FRiP scores,  did not cluster with any other replicates in PCA plot and lower sample-to-sample correlation).
+Samples B1, B2 and B3 are for the negative control. B3 was also identified as an outlier (lower insret size, did not cluster with any other replicates in PCA plot and lower sample-to-sample correlation).
+
+
+###### Negative control group:
+
+If we 
 
 
 
