@@ -45,6 +45,14 @@ In this example, we compare the reproducibility between 3 replicates called A1, 
 **Step 7**: Plot the ECDF of the min percent rank of the true logFC (red) and the null distribution (blue) with the threshold (green) to compare them. We expect to to see the null distribution above the real one and the threshold around where they have the biggest discreapancy. <br/>
 
 
+<img src="readme_figures/FRIP_outlier.JPG" alt="image" style="width:400px;height:auto;">
+
+<img src="readme_figures/FRIP_outlier.JPG" alt="image" style="width:400px;height:auto;">
+
+<img src="readme_figures/FRIP_outlier.JPG" alt="image" style="width:400px;height:auto;">
+
+
+
 
 
 
