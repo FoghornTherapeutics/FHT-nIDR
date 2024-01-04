@@ -16,7 +16,7 @@ To illustrate the mechanism, we take a group of 3 replicates: A1, A2 and A3.
 **Step 4**: Compute the min percent rank of the shuffled distribution for each peak over the three replicates. In other words, we compute the percent rank of each replicates, i.e., we have three percent rank for each replicate. Then we only keep the minimum of the percent rank for each peak id. <br/>
 **Step 5**: Compute the ECDF and select the min percentage rank that corresponds to keeping above 90% of the reads.  In this example, the min percent rank is around 0.53. <br/>
 **Step 6**: Filter all peak id that have a min percent rank lower than the selected threshold from the null distribution. <br/>
-**Step 7**: Plot the ECDF of the min percent rank of the true logFC (red) and the null distribution (blue) with the threshold (green) to compare them. We expect to to see the null distribution above the real one and the threshold around where they have the biggest discreapancy. <br/>
+**Step 7**: Plot the ECDF of the min percent rank of the true logFC (red) and the null distribution (blue) with the threshold (green) to compare them. We expect to to see the null distribution above the real one and the threshold around where the null distribution is above the real distribution. <br/>
 
 
 <img src="readme_figures/data_flow.JPG" alt="image" style="width:1000px;height:auto;">
@@ -68,11 +68,11 @@ ADD OUR nIDR ECDF!!!!!!!
 In this example, we compare some samples from random data with 3 replicates by group. 
 
 
-# Example 3
+# Example 3: Groups with outlier(s)
 
 ### Data
 
-One of the challenge of this method is to compare all N replicates of a group. However, in the ATACseq pipeline described [here](), we first compute a series of QC measures (multiqc, FRiP, PCA, sample correlations) to identify any potential outliers in a group of replicates. You can find an example [here](). <br/>
+One of the challenge of this method is to compare all N replicates of a group regardless of their consistency. However, in the ATACseq pipeline described [here](), we first compute a series of QC measures (multiqc, FRiP, PCA, sample correlations) to identify any potential outliers in a group of replicates. You can find an example [here](). <br/>
 
 This next example compares the nIDR narrowPeak with all 3 replicates of a group with and then without it the outlier in the treated group and the negative control group. 
 
@@ -88,9 +88,12 @@ Samples A1, A2 and A3 are for the negative control. A1 was identified as an outl
 Samples B1, B2 and B3 are for the negative control. B3 was also identified as an outlier (lower insret size, did not cluster with any other replicates in PCA plot and lower sample-to-sample correlation).
 
 
-###### Negative control group:
+#### Negative control group:
 
-If we 
+First looking at the standard IDR output, we can see that A2 and A3 show more consistency than A1. In the same way, B1 and B2 have more overlapping peaks.
+
+Even if we decide to ignore the fact that A1 and B3 are outliers from our QC measures and the standard IDR ouptut, once we compute the nIDR narrowPeak, the ECDF plot raises an extra flag. 
+Visually, the min rank corresponding to 10% of kept reads computes a threshold that is not where the null distribution is above the real distribution. Quantitatively, the computed threshold is really low at about 0.35 for each group and should be above 0.5. 
 
 
 
