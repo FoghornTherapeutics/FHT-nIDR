@@ -95,17 +95,12 @@ XXXXXXXXXXXXXXXX ADD OUR nIDR ECDF XXXXXXXXXXXXXXXX
 
 When comparing the [Differential Peak Area (DPA) ](https://github.com/FoghornTherapeutics/FHT-ATACseq-pipeline/blob/main/README.md#2-differential-peak-area-dpa) using the regular narrowPeak IDR (rIDR) and our method nIDR, the DPA logFC are overall well correlated. This scatter plot compares the rIDR on the x-axis and the nIDR on the y-axis for each contrast (DMSO vs treatment) at 24h and 72h. The points on the x-axis or on the y-axis are ?? XXXXXXXXXXXXXXXX
 
-Finally, we compare the overlap of peaks between the nIDR and the individual samples for the replicates at 24h. The first one is for DMSO and the second is for treatment. Most of the peaks are ?? XXXXXXXXXXXXXXXX. The second row compares the  nIDR and each of the pairwise regular IDR narrowPeak. Less that half of the peaks added in nDR are not part of the pairwise rIDR narrowPeak.
+XXXXXXXXXXXXXXXX ADD SCATTER PLOT logFC XXXXXXXXXXXXXXXX
 
 
+Finally, we compare the overlap of peaks between the nIDR and the individual samples for the replicates at 24h. The first one is for DMSO and the second is for treatment. Most of the peaks are ?? XXXXXXXXXXXXXXXX. The second row compares the  nIDR narrowPeak and each of the pairwise regular IDR narrowPeak. Less that half of the peaks added in nDR are not part of the pairwise rIDR narrowPeak.
 
-
-
-the Ven Diagram 
-
-when looking at the overlap of peaks for te first contrast (24h) , we can see that less that half of the peaks added in nIDR are not part of the pairwise IDR narrowPeak.
-
-When comparing the nIDR for DMSO at 24h with all the indic=vidual samples 
+XXXXXXXXXXXXXXXX ADD Ven DIAGRAM XXXXXXXXXXXXXXXX
 
 
 add NS-22.0044:
@@ -123,9 +118,9 @@ add NS-22.0044:
 
 ### Data
 
-One of the challenge of this method is to compare all N replicates of a group regardless of their consistency. However, in the ATACseq pipeline described [here](), we first compute a series of QC measures (multiqc, FRiP, PCA, sample correlations) to identify any potential outliers in a group of replicates. You can find an example [here](). <br/>
+One of the challenge of this method is to compare all N replicates of a group regardless of their consistency. However, in the ATACseq pipeline described [here](https://github.com/FoghornTherapeutics/FHT-ATACseq-pipeline/blob/main/README.md), we first compute a series of QC measures (multiqc, FRiP, PCA, sample correlations) to identify any potential outliers in a group of replicates. You can find an example of a QC result that identifies an outlier [here](https://github.com/FoghornTherapeutics/FHT-ATACseq-pipeline/blob/main/QC_example_with_outlier.md). <br/>
 
-This next example compares the nIDR narrowPeak with all 3 replicates of a group with and then without it the outlier in the treated group and the negative control group. 
+This next example compares the nIDR narrowPeak with all 3 replicates of a group with and then without the outlier in the treated group and the negative control group. 
 
 Overview of experiment:
 * Biological context (N=1): Cell line 1
@@ -146,10 +141,20 @@ First looking at the standard IDR output, we can see that A2 and A3 show more co
 Even if we decide to ignore the fact that A1 and B3 are outliers from our QC measures and the standard IDR ouptut, once we compute the nIDR narrowPeak, the ECDF plot raises an extra flag. 
 Visually, the min rank corresponding to 10% of kept reads computes a threshold that is not where the null distribution is above the real distribution. Quantitatively, the computed threshold is really low at about 0.35 for each group and should be above 0.5. 
 
+XXXXXXXXXXXXXXXX ADD OUR STANDARD OUPTUT PNG XXXXXXXXXXXXXXXX
+
+XXXXXXXXXXXXXXXX ADD OUR nIDR ECDF XXXXXXXXXXXXXXXX
+
+XXXXXXXXXXXXXXXX ADD SCATTER PLOT logFC XXXXXXXXXXXXXXXX
 
 
 
 
+add NS-22.0049:
+- nIDR ECDF
+- normal IDR png
+- scatter plot of logFC
+- Ven diagram
 
 
 
