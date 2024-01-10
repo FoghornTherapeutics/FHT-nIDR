@@ -17,13 +17,10 @@ To illustrate the mechanism, we take a group of 3 replicates: A1, A2 and A3.
 **Step 4**: Compute the min percent rank of the shuffled distribution for each peak over the three replicates. In other words, we compute the percent rank of each replicates, i.e., we have three percent rank for each replicate. Then we only keep the minimum of the percent rank for each peak id. <br/>
 **Step 5**: Compute the ECDF and select the min percentage rank that corresponds to keeping above 90% of the reads.  In this example, the min percent rank is around 0.53. <br/>
 **Step 6**: Filter all peak id that have a min percent rank lower than the selected threshold from the null distribution. <br/>
-**Step 7**: One of the nIDR outputs is the Empirical Cumulative Distribution Function (ECDF) plots of the consistency across replicates of all peaks found in a group of replicates. The x-axis is the "min percent rank" which indicates the consistency of a peak across the replicates, a higher value corresponds to a higher consistency of peaks accross replicates. The y-axis is the fraction peaks that have at least that value. The red curve is plotting the actual data and the blue curve is the simulated null distribution. The green dashed line indicates a p-value of 0.1 based on the blue null curve and determines the consistency score threshold to use for keeping the real peaks.
+**Step 7**: One of the nIDR outputs is the Empirical Cumulative Distribution Function (ECDF) plots of the consistency across replicates of all peaks found in a group of replicates. The x-axis is the "min percent rank" which indicates the consistency of a peak across the replicates, a higher value corresponds to a higher consistency of peaks accross replicates. The y-axis is the fraction peaks that have at least that value. The red curve is plotting the actual data and the blue curve is the simulated null distribution. The green dashed line indicates a p-value of 0.1 based on the blue null curve and determines the consistency score threshold to use for keeping the real peaks. In this case, the green dashed line indicates the threshold where 90% of the null peaks have a consistency score below 0.53. Therefore this sets a threshold for choosing peaks with a p value < 0.1. 0.53 is considered to be a relatively high min percent rank. The null distribution is above the true values, meaning that replicates of the same group show more consistency and they are not random.
 
 
-
-Plot the ECDF of the min percent rank of the true logFC (red) and the null distribution (blue) with the threshold (green) to compare them. We expect to to see the null distribution above the real one and the threshold around where the null distribution is above the real distribution. <br/>
-
-
+CHANGE ECDF WITH THRESHOLD OF .53!!!!
 <img src="readme_figures/data_flow.JPG" alt="image" style="width:1000px;height:auto;">
 
 
@@ -53,14 +50,21 @@ Overview of experiment:
 * ARID1B knockdown: SRR5876663 & SRR5876664
 
 
-In this example, there are only two replicates by group. Therefore, there are only $\binom{N}{2} = 1 $ comparison by group. This data is a good example to first verify that the peaks from the nIDR computation overlap with the standard method. First of all, the output from the standard IDR show that the replicates have high consitency betwen groups.
+In this example, there are only two replicates by group. Therefore, there are only $\binom{N}{2} = 1 $ comparison by group. This data is a good example to first verify that the peaks from the nIDR computation overlap with the standard method. 
+
+First of all, the standard IDR narrowPeak file and the nIDR narrowPeak file have a great overlapp:
+
+<img src="readme_figures/ARID_paper_nIDR.JPG" alt="image" style="width:900px;height:auto;">
+
+
+
+
+
+
+First of all, the output from the standard IDR show that the replicates have high consitency betwen groups.
  
 <img src="readme_figures/ARID_paper_standard_IDR.JPG" alt="image" style="width:900px;height:auto;">
 
-
-Then, the standard IDR narrowPeak file and the nIDR narrowPeak file have a great overlapp:
-
-<img src="readme_figures/ARID_paper_nIDR.JPG" alt="image" style="width:900px;height:auto;">
 
 
 ADD OUR nIDR ECDF!!!!!!!
@@ -71,6 +75,26 @@ ADD OUR nIDR ECDF!!!!!!!
 ### Data
 
 In this example, we compare some samples from random data with 3 replicates by group. 
+
+
+
+Overview of experiment:
+* Biological context (N=2): Cell line 1
+* Perturbagens (N=1): treatment
+* Time point (N=2): 24h and 72h
+* Negative control (N=1): wild type / untreated
+* Replicates: N=3
+
+
+
+add:
+- nIDR ECDF
+- normal IDR png
+- scatter plot of logFC
+- ven diragram
+
+
+
 
 
 # Example 3: Groups with outlier(s)
