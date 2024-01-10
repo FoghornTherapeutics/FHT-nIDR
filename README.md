@@ -2,7 +2,7 @@
 
 The Irreproducible Discovery Rate (IDR) is a method to combine combining replicates to only get the highly reproducible peaks and consistency between replicates in high-throughput experiments. It is used to measure the consistency of results (such as the identification of transcription factor binding sites, histone marks, or gene expression levels) across different experimental replicates. The standard method involves comparing the rank of results across different replicates to estimate the proportion of findings that are reproducible (consistent across replicates) versus those that are irreproducible (inconsistent or likely to be noise).  One way to assess concordance of peak calls between replicates is to implement a statistical procedure. A popular method is the [IDR framework developed by Qunhua Li and Peter Bickel’s group](https://projecteuclid.org/journals/annals-of-applied-statistics/volume-5/issue-3/Measuring-reproducibility-of-high-throughput-experiments/10.1214/11-AOAS466.full). It compares a pair of ranked lists of regions/peaks and assigns values that reflect its reproducibility. The core IDR R package can be downloaded from the [IDR download page](http://cran.r-project.org/web/packages/idr/index.html).
 
-This method can only compare a pair of replicates. When you have n replicates, you have to compare $\binom{N}{2}$ pair of replicates. If N=4, you then have to compare by hand 6 pair of replicates. We propose another method to comapre all the replicates at once and give the best set of peaks that are consistent accross them.
+This method can only compare a pair of replicates. When you have n replicates, you have to compare $\binom{N}{2}$ pair of replicates. If N=4, you then have to compare by hand 6 pair of replicates. We propose another method to compare all the replicates at once and give the best set of peaks that are consistent accross them. We call it nIDR where n is the number of replicates.
 
 
 
@@ -39,20 +39,30 @@ Overview of experiment:
 * Negative control (N=1):  wild type / untreated
 * Replicates:  N=2
 
-### HCT116 (ACH-000971)
+#### HCT116 (ACH-000971)
 * WT: SRR5876158 & SRR5876159
 * ARID1B knockdown: SRR5876160 & SRR5876161
 * ARID1A knockout: SRR5876162 & SRR5876163
 * ARID1A knockout ARID1B knockdown:SRR5876164 & SRR5876165
 
-### TOV21G (ACH-000885)
+#### TOV21G (ACH-000885)
 * WT: SRR5876661 & SRR5876662
 * ARID1B knockdown: SRR5876663 & SRR5876664
 
+### Results
 
 In this example, there are only two replicates by group. Therefore, there are only $\binom{N}{2} = 1$ comparison by group. This data is a good example to first verify that the peaks from the nIDR computation overlap with the standard method. 
 
-First of all, the standard IDR narrowPeak file and the nIDR narrowPeak file have a great overlapp:
+First of all, the output from the standard IDR show that the replicates have high consitency betwen groups.
+ 
+<img src="readme_figures/ARID_paper_standard_IDR.JPG" alt="image" style="width:900px;height:auto;">
+
+In the same way, the results from the ECDF when using the nIDR method.
+
+
+
+
+the standard IDR narrowPeak file and the nIDR narrowPeak file have a great overlapp:
 
 <img src="readme_figures/ARID_paper_nIDR.JPG" alt="image" style="width:900px;height:auto;">
 
@@ -61,9 +71,7 @@ First of all, the standard IDR narrowPeak file and the nIDR narrowPeak file have
 
 
 
-First of all, the output from the standard IDR show that the replicates have high consitency betwen groups.
- 
-<img src="readme_figures/ARID_paper_standard_IDR.JPG" alt="image" style="width:900px;height:auto;">
+First of all, 
 
 
 
