@@ -155,7 +155,7 @@ We then apply the method removing these replicates on the second row. The true d
 XXXXXXXXXXXXXXXX ADD OUR nIDR ECDF XXXXXXXXXXXXXXXX
 
 
-Finally, the scatter plot of the DPA logFC wihtout the two outliers 
+Finally, when removing the two replicates A1 and B3, the scatter plot of the DPA logFC shows a stronger correlation between the two  
 
 XXXXXXXXXXXXXXXX ADD SCATTER PLOT logFC XXXXXXXXXXXXXXXX
 
