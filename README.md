@@ -24,7 +24,6 @@ To illustrate the mechanism, we take a group of 3 replicates: A1, A2 and A3.
 **Step 7**: One of the nIDR outputs is the Empirical Cumulative Distribution Function (ECDF) plots of the consistency across replicates of all peaks found in a group of replicates. The x-axis is the "min percent rank" which indicates the consistency of a peak across the replicates, a higher value corresponds to a higher consistency of peaks accross replicates. The y-axis is the fraction peaks that have at least that value. The red curve is plotting the actual data and the blue curve is the simulated null distribution. The green dashed line indicates a p-value of 0.1 based on the blue null curve and determines the consistency score threshold to use for keeping the real peaks. In this case, the green dashed line indicates the threshold where 90% of the null peaks have a consistency score below 0.53. Therefore this sets a threshold for choosing peaks with a p value < 0.1. 0.53 is considered to be a relatively high min percent rank. The null distribution is above the true values, meaning that replicates of the same group show more consistency and they are not random.
 
 
-CHANGE ECDF WITH THRESHOLD OF .53!!!!
 <img src="readme_figures/data_flow.JPG" alt="image" style="width:1000px;height:auto;">
 
 
@@ -156,13 +155,6 @@ Finally, when removing the two replicates A1 and B3, the scatter plot of the DPA
 <img src="readme_figures/Example3_VenDiagram.JPG" alt="image" style="width:600px;height:auto;">
 
 
-
-
-add NS-22.0049:
-- nIDR ECDF
-- normal IDR png
-- scatter plot of logFC
-- Ven diagram
 
 
 
