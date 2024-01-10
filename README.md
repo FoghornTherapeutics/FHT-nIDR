@@ -63,7 +63,9 @@ First of all, the output from the standard IDR show that the replicates have hig
 
 In the same way, the results from the ECDF when using the nIDR method shows that we have a really high min percent rank around 0.65. 
 
-XXXXXXXXXXXXXXXX ADD OUR nIDR ECDF XXXXXXXXXXXXXXXX
+<img src="readme_figures/HCT116_nIDR.JPG" alt="image" style="width:600px;height:auto;">
+<img src="readme_figures/TOV21G_nIDR.JPG" alt="image" style="width:600px;height:auto;">
+
 
 To compare the two IDR narrowPeak files, we study their overlap with a Ven Diagram. And we can see that the standard IDR narrowPeak is almost included in the nIDR narrowPeak. The additional peaks from nIDR could be explained by the fact that we are adding more information ?? XXXXXXXXXXXXXXXX
 
@@ -88,6 +90,7 @@ Overview of experiment:
 
 First of all, the output from the standard IDR show that the replicates have high consitency betwen groups.
 
+
 XXXXXXXXXXXXXXXX ADD OUR STANDARD OUPTUT PNG XXXXXXXXXXXXXXXX
 for 24h: chosen DMSO rIDR is A2_A3.
 for 24h: chosen FHT rIDR is A5_A6.
@@ -95,23 +98,16 @@ for 24h: chosen FHT rIDR is A5_A6.
 
 The ECDF shows the null distribution above the true values with a wide gap, meaning that replicates of the same group show more consistency and they are not random. The green dashed line indicates the threshold where 90% of the null peaks have a consistency score below 0.53 which is considered to be a relatively high min percent rank.
 
-XXXXXXXXXXXXXXXX ADD OUR nIDR ECDF XXXXXXXXXXXXXXXX
+<img src="readme_figures/Example2_ECDF.JPG" alt="image" style="width:600px;height:auto;">
 
 When comparing the [Differential Peak Area (DPA) ](https://github.com/FoghornTherapeutics/FHT-ATACseq-pipeline/blob/main/README.md#2-differential-peak-area-dpa) using the regular narrowPeak IDR (rIDR) and our method nIDR, the DPA logFC are overall well correlated. This scatter plot compares the rIDR on the x-axis and the nIDR on the y-axis for each contrast (DMSO vs treatment) at 24h and 72h. The points on the x-axis or on the y-axis are ?? XXXXXXXXXXXXXXXX
 
-XXXXXXXXXXXXXXXX ADD SCATTER PLOT logFC XXXXXXXXXXXXXXXX
+<img src="readme_figures/Example2_logFC_scatter_plot.JPG" alt="image" style="width:600px;height:auto;">
 
 
 Finally, we compare the overlap of peaks between the nIDR and the individual samples for the replicates at 24h. The first one is for DMSO and the second is for treatment. Most of the peaks are ?? XXXXXXXXXXXXXXXX. The second row compares the  nIDR narrowPeak and each of the pairwise regular IDR narrowPeak. Less that half of the peaks added in nDR are not part of the pairwise rIDR narrowPeak.
 
-XXXXXXXXXXXXXXXX ADD Ven DIAGRAM XXXXXXXXXXXXXXXX
-
-
-add NS-22.0044:
-- nIDR ECDF
-- normal IDR png
-- scatter plot of logFC
-- Ven diagram
+<img src="readme_figures/Example2_VenDiagram.JPG" alt="image" style="width:600px;height:auto;">
 
 
 
@@ -142,7 +138,8 @@ Samples B1, B2 and B3 are for the negative control. B3 was also identified as an
 
 First, we compare the standard output from rIDR, we can identify that A2 and A3 show more consistency than A1. In the same way, B1 and B2 have more overlapping peaks overall.
 
-XXXXXXXXXXXXXXXX ADD OUR STANDARD OUPTUT PNG XXXXXXXXXXXXXXXX
+<img src="readme_figures/Example3_ECDF.JPG" alt="image" style="width:600px;height:auto;">
+
 
 Ignoring the fact the A1 and B3 are outliers, we apply the nIDR method on all three replicates in both groups. 
 
@@ -151,13 +148,12 @@ Visually, the min rank corresponding to 10% of kept reads computes a threshold t
 We then apply the method removing these replicates on the second row. The true distribution is still very close to the random data. However, the min percent rank is much higher now around 0.67.
 
 
-
-XXXXXXXXXXXXXXXX ADD OUR nIDR ECDF XXXXXXXXXXXXXXXX
+<img src="readme_figures/Example3_logFC_scatter_plot.JPG" alt="image" style="width:600px;height:auto;">
 
 
 Finally, when removing the two replicates A1 and B3, the scatter plot of the DPA logFC shows a stronger correlation between the two  
 
-XXXXXXXXXXXXXXXX ADD SCATTER PLOT logFC XXXXXXXXXXXXXXXX
+<img src="readme_figures/Example3_VenDiagram.JPG" alt="image" style="width:600px;height:auto;">
 
 
 
