@@ -85,6 +85,9 @@ Overview of experiment:
 First of all, the output from the standard IDR show that the replicates have high consitency betwen groups.
 
 XXXXXXXXXXXXXXXX ADD OUR STANDARD OUPTUT PNG XXXXXXXXXXXXXXXX
+for 24h: chosen DMSO rIDR is A2_A3.
+for 24h: chosen FHT rIDR is A5_A6.
+
 
 The ECDF shows the null distribution above the true values with a wide gap, meaning that replicates of the same group show more consistency and they are not random. The green dashed line indicates the threshold where 90% of the null peaks have a consistency score below 0.53 which is considered to be a relatively high min percent rank.
 
@@ -92,10 +95,24 @@ XXXXXXXXXXXXXXXX ADD OUR nIDR ECDF XXXXXXXXXXXXXXXX
 
 When comparing the [Differential Peak Area (DPA) ](https://github.com/FoghornTherapeutics/FHT-ATACseq-pipeline/blob/main/README.md#2-differential-peak-area-dpa) using the regular narrowPeak IDR (rIDR) and our method nIDR, the DPA logFC are overall well correlated. This scatter plot compares the rIDR on the x-axis and the nIDR on the y-axis for each contrast (DMSO vs treatment) at 24h and 72h. The points on the x-axis or on the y-axis are ?? XXXXXXXXXXXXXXXX
 
+Finally, we compare the overlap of peaks between the nIDR and the individual samples for the replicates at 24h. The first one is for DMSO and the second is for treatment. Most of the peaks are ?? XXXXXXXXXXXXXXXX. The second row compares the  nIDR and each of the pairwise regular IDR narrowPeak. Less that half of the peaks added in nDR are not part of the pairwise rIDR narrowPeak.
+
+
+
+
+
+the Ven Diagram 
+
+when looking at the overlap of peaks for te first contrast (24h) , we can see that less that half of the peaks added in nIDR are not part of the pairwise IDR narrowPeak.
+
+When comparing the nIDR for DMSO at 24h with all the indic=vidual samples 
+
+
 add NS-22.0044:
 - nIDR ECDF
 - normal IDR png
 - scatter plot of logFC
+- Ven diagram
 
 
 
