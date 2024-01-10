@@ -57,12 +57,11 @@ First of all, the output from the standard IDR show that the replicates have hig
  
 <img src="readme_figures/ARID_paper_standard_IDR.JPG" alt="image" style="width:900px;height:auto;">
 
-In the same way, the results from the ECDF when using the nIDR method.
+In the same way, the results from the ECDF when using the nIDR method shows that we have a really high min percent rank around 0.65. 
 
+ADD OUR nIDR ECDF!!!!!!!
 
-
-
-the standard IDR narrowPeak file and the nIDR narrowPeak file have a great overlapp:
+To compare the two IDR narrowPeak files, we study their overlap with a Ven Diagram. And we can see that the standard IDR narrowPeak is almost included in the nIDR narrowPeak. The additional peaks from nIDR could be explained by the fact that we are adding more information ????????????????????????????????
 
 <img src="readme_figures/ARID_paper_nIDR.JPG" alt="image" style="width:900px;height:auto;">
 
@@ -75,7 +74,7 @@ First of all,
 
 
 
-ADD OUR nIDR ECDF!!!!!!!
+
 
 
 # Example 2
