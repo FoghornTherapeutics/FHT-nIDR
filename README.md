@@ -50,7 +50,7 @@ Overview of experiment:
 * ARID1B knockdown: SRR5876663 & SRR5876664
 
 
-In this example, there are only two replicates by group. Therefore, there are only $\binom{N}{2} = 1 $ comparison by group. This data is a good example to first verify that the peaks from the nIDR computation overlap with the standard method. 
+In this example, there are only two replicates by group. Therefore, there are only $\binom{N}{2} = 1$ comparison by group. This data is a good example to first verify that the peaks from the nIDR computation overlap with the standard method. 
 
 First of all, the standard IDR narrowPeak file and the nIDR narrowPeak file have a great overlapp:
 
