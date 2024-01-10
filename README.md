@@ -51,7 +51,7 @@ Overview of experiment:
 
 ### Results
 
-In this example, there are only two replicates by group. Therefore, there are only $\binom{N}{2} = 1$ comparison by group. This data is a good example to first verify that the peaks from the nIDR computation overlap with the standard method. 
+In this example, there are only two replicates by group. Therefore, there are only $\binom{N}{2} = \binom{2}{2}= 1$ comparison by group. This data is a good example to first verify that the peaks from the nIDR computation overlap with the standard method. 
 
 First of all, the output from the standard IDR show that the replicates have high consitency betwen groups.
  
@@ -59,20 +59,11 @@ First of all, the output from the standard IDR show that the replicates have hig
 
 In the same way, the results from the ECDF when using the nIDR method shows that we have a really high min percent rank around 0.65. 
 
-ADD OUR nIDR ECDF!!!!!!!
+XXXXXXXXXXXXXXXX ADD OUR nIDR ECDF XXXXXXXXXXXXXXXX
 
-To compare the two IDR narrowPeak files, we study their overlap with a Ven Diagram. And we can see that the standard IDR narrowPeak is almost included in the nIDR narrowPeak. The additional peaks from nIDR could be explained by the fact that we are adding more information ????????????????????????????????
+To compare the two IDR narrowPeak files, we study their overlap with a Ven Diagram. And we can see that the standard IDR narrowPeak is almost included in the nIDR narrowPeak. The additional peaks from nIDR could be explained by the fact that we are adding more information ?? XXXXXXXXXXXXXXXX
 
 <img src="readme_figures/ARID_paper_nIDR.JPG" alt="image" style="width:900px;height:auto;">
-
-
-
-
-
-
-First of all, 
-
-
 
 
 
@@ -81,9 +72,7 @@ First of all,
 
 ### Data
 
-In this example, we compare some samples from random data with 3 replicates by group. 
-
-
+In this example, we compare some samples from random data with 3 replicates by group. Therefore, there are only $\binom{N}{2} = \binom{3}{2} = 3$ comparison by group.
 
 Overview of experiment:
 * Biological context (N=2): Cell line 1
@@ -93,12 +82,21 @@ Overview of experiment:
 * Replicates: N=3
 
 
+First of all, the output from the standard IDR show that the replicates have high consitency betwen groups.
 
-add:
+XXXXXXXXXXXXXXXX ADD OUR STANDARD OUPTUT PNG XXXXXXXXXXXXXXXX
+
+The ECDF shows the null distribution above the true values with a wide gap, meaning that replicates of the same group show more consistency and they are not random. The green dashed line indicates the threshold where 90% of the null peaks have a consistency score below 0.53 which is considered to be a relatively high min percent rank.
+
+XXXXXXXXXXXXXXXX ADD OUR nIDR ECDF XXXXXXXXXXXXXXXX
+
+When comparing the [Differential Peak Area (DPA) ](https://github.com/FoghornTherapeutics/FHT-ATACseq-pipeline/blob/main/README.md#2-differential-peak-area-dpa) using the regular narrowPeak IDR (rIDR) and our method nIDR, the DPA logFC are overall well correlated. This scatter plot compares the rIDR on the x-axis and the nIDR on the y-axis for each contrast (DMSO vs treatment) at 24h and 72h. The points on the x-axis or on the y-axis are ?? XXXXXXXXXXXXXXXX
+
+add NS-22.0044:
 - nIDR ECDF
 - normal IDR png
 - scatter plot of logFC
-- ven diragram
+
 
 
 
