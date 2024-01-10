@@ -137,7 +137,7 @@ Samples B1, B2 and B3 are for the negative control. B3 was also identified as an
 
 First, we compare the standard output from rIDR, we can identify that A2 and A3 show more consistency than A1. In the same way, B1 and B2 have more overlapping peaks overall.
 
-<img src="readme_figures/Example3_ECDF.JPG" alt="image" style="width:600px;height:auto;">
+<img src="readme_figures/Example3_rIDR.JPG" alt="image" style="width:600px;height:auto;">
 
 
 Ignoring the fact the A1 and B3 are outliers, we apply the nIDR method on all three replicates in both groups. 
@@ -147,12 +147,12 @@ Visually, the min rank corresponding to 10% of kept reads computes a threshold t
 We then apply the method removing these replicates on the second row. The true distribution is still very close to the random data. However, the min percent rank is much higher now around 0.67.
 
 
-<img src="readme_figures/Example3_logFC_scatter_plot.JPG" alt="image" style="width:600px;height:auto;">
+<img src="readme_figures/Example3_ECDF.JPG" alt="image" style="width:600px;height:auto;">
 
 
 Finally, when removing the two replicates A1 and B3, the scatter plot of the DPA logFC shows a stronger correlation between the two  
 
-<img src="readme_figures/Example3_VenDiagram.JPG" alt="image" style="width:600px;height:auto;">
+<img src="readme_figures/Example3_logFC_scatter_plot.JPG" alt="image" style="width:600px;height:auto;">
 
 
 
