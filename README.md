@@ -5,6 +5,10 @@ The Irreproducible Discovery Rate (IDR) is a method to combine combining replica
 This method can only compare a pair of replicates. When you have n replicates, you have to compare $\binom{N}{2}$ pair of replicates. If N=4, you then have to compare by hand 6 pair of replicates. We propose another method to compare all the replicates at once and give the best set of peaks that are consistent accross them. We call it nIDR where n is the number of replicates.
 
 
+# Background
+
+XXXXXXXXXXXXXXXX DAVE'S EQUATION XXXXXXXXXXXXXXXX
+
 
 # FHT-nIDR data flow
 
@@ -136,14 +140,22 @@ Samples B1, B2 and B3 are for the negative control. B3 was also identified as an
 
 #### Negative control group:
 
-First looking at the standard IDR output, we can see that A2 and A3 show more consistency than A1. In the same way, B1 and B2 have more overlapping peaks.
-
-Even if we decide to ignore the fact that A1 and B3 are outliers from our QC measures and the standard IDR ouptut, once we compute the nIDR narrowPeak, the ECDF plot raises an extra flag. 
-Visually, the min rank corresponding to 10% of kept reads computes a threshold that is not where the null distribution is above the real distribution. Quantitatively, the computed threshold is really low at about 0.35 for each group and should be above 0.5. 
+First, we compare the standard output from rIDR, we can identify that A2 and A3 show more consistency than A1. In the same way, B1 and B2 have more overlapping peaks overall.
 
 XXXXXXXXXXXXXXXX ADD OUR STANDARD OUPTUT PNG XXXXXXXXXXXXXXXX
 
+Ignoring the fact the A1 and B3 are outliers, we apply the nIDR method on all three replicates in both groups. 
+
+Visually, the min rank corresponding to 10% of kept reads computes a threshold that is not where the null distribution is above the real distribution. Quantitatively, the computed threshold is really low at about 0.35 for each group and should be above 0.5. <br/>
+
+We then apply the method removing these replicates on the second row. The true distribution is still very close to the random data. However, the min percent rank is much higher now around 0.67.
+
+
+
 XXXXXXXXXXXXXXXX ADD OUR nIDR ECDF XXXXXXXXXXXXXXXX
+
+
+Finally, the scatter plot of the DPA logFC wihtout the two outliers 
 
 XXXXXXXXXXXXXXXX ADD SCATTER PLOT logFC XXXXXXXXXXXXXXXX
 
