@@ -7,12 +7,12 @@ This method can only compare a pair of replicates. When you have n>2 replicates,
 
 # Mathematical derivation of the new algorithm
 
-Starting from equation (2.1) in Li et al:
+Starting from equation (2.1) in Li et al (referenced above):
 
 $$\psi(t) = \frac{1}{N} \sum_{i=1}^{N}{1 \left( X1_i>x_{X1}(t), X2_i>x_{X2}(t) \right) } $$
 
 * $N$ number of features i.e. peaks
-* $1(...)$ is a function that returns $1$ if all the arguments are true otherwise returns 0
+* $1(...)$ is an [indicator function]([url](https://en.wikipedia.org/wiki/Indicator_function)) that returns $1$ if all the arguments are true otherwise returns 0
 * $X1_i$ values observed in replicate X1 for $i$ th feature
 * $X2_i$ values observed in replicate X2 for $i$ th feature
 * $t$ is the fractional rank i.e. number from 0 to 1
