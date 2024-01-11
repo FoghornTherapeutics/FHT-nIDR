@@ -2,13 +2,79 @@
 
 The Irreproducible Discovery Rate (IDR) is a method to combine combining replicates to only get the highly reproducible peaks and consistency between replicates in high-throughput experiments. It is used to measure the consistency of results (such as the identification of transcription factor binding sites, histone marks, or gene expression levels) across different experimental replicates. The standard method involves comparing the rank of results across different replicates to estimate the proportion of findings that are reproducible (consistent across replicates) versus those that are irreproducible (inconsistent or likely to be noise).  One way to assess concordance of peak calls between replicates is to implement a statistical procedure. A popular method is the [IDR framework developed by Qunhua Li and Peter Bickel’s group](https://projecteuclid.org/journals/annals-of-applied-statistics/volume-5/issue-3/Measuring-reproducibility-of-high-throughput-experiments/10.1214/11-AOAS466.full). It compares a pair of ranked lists of regions/peaks and assigns values that reflect its reproducibility. The core IDR R package can be downloaded from the [IDR download page](http://cran.r-project.org/web/packages/idr/index.html).
 
-This method can only compare a pair of replicates. When you have n replicates, you have to compare $\binom{N}{2}$ pair of replicates. If N=4, you then have to compare by hand 6 pair of replicates. We propose another method to compare all the replicates at once and give the best set of peaks that are consistent accross them. We call it nIDR where n is the number of replicates.
+This method can only compare a pair of replicates. When you have n>2 replicates, one method would be to use the above to do pairwise comparisons cand choose the best pair.  However, in that case you have to compare $\binom{N}{2}$ pair of replicates. If N=4, you then have to compare by hand 6 pair of replicates.  In addition you are then losing the statistical power / signal that comes from having greater numbers of replicates. We propose another method to compare all the replicates at once and give the best set of peaks that are consistent accross all of them. We call it nIDR where n indicates it is for arbitrary number of replicates.
 
 
-# Background
+# Mathematical derivation of the new algorithm
 
-XXXXXXXXXXXXXXXX DAVE'S EQUATION XXXXXXXXXXXXXXXX
+Starting from equation (2.1) in Li et al:
 
+$$\psi(t) = \frac{1}{N} \sum_{i=1}^{N}{1 \left( X1_i>x_{X1}(t), X2_i>x_{X2}(t) \right) } $$
+
+* $N$ number of features i.e. peaks
+* $1(...)$ is a function that returns $1$ if all the arguments are true otherwise returns 0
+* $X1_i$ values observed in replicate X1 for $i$ th feature
+* $X2_i$ values observed in replicate X2 for $i$ th feature
+* $t$ is the fractional rank i.e. number from 0 to 1
+* $x_{X1}(t)$ percentile value of replicate X1.  i.e. $x_{X1}(0.5)$ is the 50th percentile aka median of the data for replicate X1
+* $x_{X2}(t)$ percentile value of replicate X2.  i.e. $x_{X2}(0.5)$ is the 50th percentile aka median of the data for replicate X2
+
+To help us understand how this works we use this illustrative example for $t=0.5$ -  define:
+
+* $median_{X1} = x_{X1}(t=0.5)$ the median of the data measured for replicate X1
+* $median_{X2} = x_{X2}(t=0.5)$ the median of the data measured for replicate X2
+
+then:
+
+$$\psi(t=0.5) = \frac{1}{N} \sum_{i=1}^{N}{1 \left( X1_i>median_{X1},X2_i>median_{X2} \right) } $$
+
+Restating the above:  the operand of the sum $1(...)$ is 1 if for feature $i$ the value for replicate $X1_i > median_{X1}$ and the value for replicate $X2_i > median_{X2}$, otherwise it is 0.  Therefore, $\psi(t=0.5)$ counts up the features features where both X1 and X2 have values greater than their respective medians.
+
+With the above understanding, we can do some mathematical rearrangements to develop an algorithm that allows us to more easily extend this to multiple replicates.  Note that Li et al also address this in section 4 of their supplemental "Extension of our model to the case of m > 2"; our goal here is rearrange for our understanding and to make reasonably efficient computer code.
+
+define fractional rank of X1 - $frac\textunderscore rank\textunderscore X1$ as a vector where each entry is the fractional rank of the corresponding $i$ th value in X1
+
+$$frac\textunderscore rank\textunderscore X1_i = \frac{index\textunderscore of\textunderscore sorted\textunderscore X1(i)}{N}$$
+
+then this is true:
+
+$$ X1_i>x_{X1}(t) == frac\textunderscore rank\textunderscore X1_i>t $$
+
+then the equation for $\psi$ can be rewritten as:
+
+$$\psi(t) = \frac{1}{N} \sum_{i=1}^{N}{1(frac\textunderscore rank\textunderscore X1_i>t, frac\textunderscore rank\textunderscore X2_i>t)} $$
+
+the sum's operand $1(...)$ can be rewritten as:
+  
+$$1\Bigl(min[frac\textunderscore rank\textunderscore X1, frac\textunderscore rank\textunderscore X2]>t\Bigr)$$
+
+yielding:
+
+$$\psi(t) = \frac{1}{N} \sum_{i=1}^{N}{1 \Bigl(min(frac\textunderscore rank\textunderscore X1_i,frac\textunderscore rank\textunderscore X2_i)>t \Bigr)} $$
+
+Instead of calcuating the sum for each value of $t$ we can generate an ECDF (empirical cumulative distribution).
+
+First, create the vector of values $min\textunderscore rank$ such that:
+
+$$min\textunderscore rank_i = min(frac\textunderscore rank\textunderscore X1_i, frac\textunderscore rank\textunderscore X2_i))$$
+
+Sort the above to create $sort\textunderscore min\textunderscore rank$ such that:
+
+$$sort\textunderscore min\textunderscore rank_i <= sort\textunderscore min\textunderscore rank_{i+1}$$
+
+starting at beginning of vector $sort\textunderscore min\textunderscore rank$, find $sort\textunderscore min\textunderscore rank\textunderscore index(t)$ which is first occurrence of $t$ in $sort\textunderscore min\textunderscore rank$
+
+$$sort\textunderscore min\textunderscore rank\bigl[sort\textunderscore min\textunderscore rank\textunderscore index(t)\bigr] = t$$
+
+Then:
+
+$$\psi(t) = \frac{sort\textunderscore min\textunderscore rank\textunderscore index(t)}{N}$$
+
+The above equation then leads to a fairly straightforward algorithm to implement:
+1. calculate the fractional rank of values within each replicate
+2. For each feature in the replicates, calculate the minimum fractional rank
+3. calculate an ECDF of these minimum fractional ranks - this is now $psi(t)$
+This methodology has allowed us to extend IDR to arbitrary numbers of replicates, and to extend the number of features into the hundreds of millions (and we expect billions).
 
 # FHT-nIDR data flow
 
