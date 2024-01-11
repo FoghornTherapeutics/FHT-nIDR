@@ -32,19 +32,19 @@ Restating the above:  the indicator function $1(...)$ is 1 if for feature $i$ th
 
 With the above understanding, we can do some mathematical rearrangements to develop an algorithm that allows us to more easily extend this to multiple replicates.  Note that Li et al also address this in section 4 of their supplemental "Extension of our model to the case of m > 2"; our goal here is rearrange for our understanding and to make reasonably efficient computer code.
 
-define fractional rank of X1 - $frac\textunderscore rank\textunderscore X1$ as a vector where each entry is the fractional rank of the corresponding $i$ th value in X1
+define $frac\textunderscore rank\textunderscore X1$ as the fractional rank of $X1$ - a vector where each entry is the fractional rank of the corresponding $i$ th value in X1
 
 $$frac\textunderscore rank\textunderscore X1_i = \frac{index\textunderscore of\textunderscore sorted\textunderscore X1(i)}{N}$$
 
-then this is true:
+Then:
 
-$$ X1_i>x_{X1}(t) == frac\textunderscore rank\textunderscore X1_i>t $$
+$$ X1_i>x_{X1}(t) = frac\textunderscore rank\textunderscore X1_i>t $$
 
-then the equation for $\psi$ can be rewritten as:
+The equation for $\psi$ can be rewritten as:
 
 $$\psi(t) = \frac{1}{N} \sum_{i=1}^{N}{1(frac\textunderscore rank\textunderscore X1_i>t, frac\textunderscore rank\textunderscore X2_i>t)} $$
 
-the sum's operand $1(...)$ can be rewritten as:
+The indicator function $1(...)$ and its arguments can be rewritten as:
   
 $$1\Bigl(min[frac\textunderscore rank\textunderscore X1, frac\textunderscore rank\textunderscore X2]>t\Bigr)$$
 
@@ -52,9 +52,7 @@ yielding:
 
 $$\psi(t) = \frac{1}{N} \sum_{i=1}^{N}{1 \Bigl(min(frac\textunderscore rank\textunderscore X1_i,frac\textunderscore rank\textunderscore X2_i)>t \Bigr)} $$
 
-Instead of calcuating the sum for each value of $t$ we can generate an ECDF (empirical cumulative distribution).
-
-First, create the vector of values $min\textunderscore rank$ such that:
+With the above, instead of calcuating the sum for each value of $t$ we can generate an ECDF (empirical cumulative distribution) of the above  To do that, we first, create the vector of values $min\textunderscore rank$ such that:
 
 $$min\textunderscore rank_i = min(frac\textunderscore rank\textunderscore X1_i, frac\textunderscore rank\textunderscore X2_i))$$
 
@@ -66,11 +64,11 @@ starting at beginning of vector $sort\textunderscore min\textunderscore rank$, f
 
 $$sort\textunderscore min\textunderscore rank\bigl[sort\textunderscore min\textunderscore rank\textunderscore index(t)\bigr] = t$$
 
-Then:
+Now we have the ECDF of the $min\textunderscore rank$ which is equivalent to:
 
 $$\psi(t) = \frac{sort\textunderscore min\textunderscore rank\textunderscore index(t)}{N}$$
 
-The above equation then leads to a fairly straightforward algorithm to implement:
+The above procedure and equation then leads to a fairly straightforward algorithm to implement:
 1. calculate the fractional rank of values within each replicate
 2. For each feature in the replicates, calculate the minimum fractional rank
 3. calculate an ECDF of these minimum fractional ranks - this is now $psi(t)$
@@ -78,16 +76,15 @@ This methodology has allowed us to extend IDR to arbitrary numbers of replicates
 
 # FHT-nIDR data flow
 
+We illustrate nIDR via practical use on ATAC-seq data, using a group of 3 replicates: A1, A2 and A3, where the ATAC-seq peaks correspond to the individual features $i$ described above.  We are using the output of peak calling (using macs2) on the individual replicates which generates a set of peaks, their signal strength and statistical significance (above background) as contained the `narrowPeak` file that is output from macs2.  See our ATAC-seq pipeline for more information.
 
-To illustrate the mechanism, we take a group of 3 replicates: A1, A2 and A3.  
-
-**Step 1**: Combine and merge three replicates peak id, peak origin and logFC on the same narrowPeak file. For this step, we use bedtools merge to merge the peaks. In consequence, we can have several logFC from the same replicate. <br/>
-**Step 2**: Reformat bed file with a logFC per replicate and by peak id. If there is logFC from a replicate, the value is 0. When there are several logFC from the same replicates, we compute the average between them. <br/>
-**Step 3**: Generate a shuffled distribution of the logFC over the given list of peak ID for each replicate.<br/>
+**Step 1**: Combine and merge three replicates peak id, peak origin and logFC on the same narrowPeak file. For this step, we use bedtools merge to merge the peaks. In consequence, there can be a many-to-many relationship between peaks in the replicates, and hence more than one logFC value from each replicate. <br/>
+**Step 2**: Aggregate multiple values per peak for a single replicate in merged bed file.  In other words, when there are several logFC from the same replicate for one peak, we compute the average logFC value.  If there is no peak for one of the replicates, the logFC value is set to 0 <br/>
+**Step 3**: Generate a an empirical null distribution by randomly shuffling the logFC values within each replicate.<br/>
 **Step 4**: Compute the min percent rank of the shuffled distribution for each peak over the three replicates. In other words, we compute the percent rank of each replicates, i.e., we have three percent rank for each replicate. Then we only keep the minimum of the percent rank for each peak id. <br/>
 **Step 5**: Compute the ECDF and select the min percentage rank that corresponds to keeping above 90% of the reads.  In this example, the min percent rank is around 0.53. <br/>
-**Step 6**: Filter all peak id that have a min percent rank lower than the selected threshold from the null distribution. <br/>
-**Step 7**: One of the nIDR outputs is the Empirical Cumulative Distribution Function (ECDF) plots of the consistency across replicates of all peaks found in a group of replicates. The x-axis is the "min percent rank" which indicates the consistency of a peak across the replicates, a higher value corresponds to a higher consistency of peaks accross replicates. The y-axis is the fraction peaks that have at least that value. The red curve is plotting the actual data and the blue curve is the simulated null distribution. The green dashed line indicates a p-value of 0.1 based on the blue null curve and determines the consistency score threshold to use for keeping the real peaks. In this case, the green dashed line indicates the threshold where 90% of the null peaks have a consistency score below 0.53. Therefore this sets a threshold for choosing peaks with a p value < 0.1. 0.53 is considered to be a relatively high min percent rank. The null distribution is above the true values, meaning that replicates of the same group show more consistency and they are not random.
+**Step 6**: Only keep peaks that have a min percent rank higher than the selected threshold from the null distribution. <br/>
+**Step 7**: Generate Empirical Cumulative Distribution Function (ECDF) plots of the min percent rank (aka consistency across replicates) of all peaks found in the group of replicates. Below is an example, the x-axis is the "min percent rank" which indicates the consistency of a peak across the replicates, a higher value corresponds to a higher consistency of peaks accross replicates. The y-axis is the fraction peaks that have at least that value. The red curve is plotting the actual data and the blue curve is the simulated null distribution. The green dashed line indicates a p-value of 0.1 based on the blue null curve and determines the consistency score threshold to use for keeping the real peaks. In this case, the green dashed line indicates the threshold where 90% of the null peaks have a consistency score below 0.53. Therefore this sets a threshold for choosing peaks with a p value < 0.1. 0.53 is considered to be a relatively high min percent rank. The null distribution is above the true values, meaning that replicates of the same group show more consistency and they are not random.
 
 
 <img src="readme_figures/data_flow.JPG" alt="image" style="width:1000px;height:auto;">
