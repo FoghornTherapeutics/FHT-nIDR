@@ -19,7 +19,7 @@ $$\psi(t) = \frac{1}{N} \sum_{i=1}^{N}{1 \left( X1_i>x_{X1}(t), X2_i>x_{X2}(t) \
 * $x_{X1}(t)$ percentile value of replicate X1.  i.e. $x_{X1}(0.5)$ is the 50th percentile aka median of the data for replicate X1
 * $x_{X2}(t)$ percentile value of replicate X2.  i.e. $x_{X2}(0.5)$ is the 50th percentile aka median of the data for replicate X2
 
-To help us understand how this works we use this illustrative example for $t=0.5$ -  define:
+To help us understand how this works we use this illustrative example for $t=0.5$ .  Define:
 
 * $median_{X1} = x_{X1}(t=0.5)$ the median of the data measured for replicate X1
 * $median_{X2} = x_{X2}(t=0.5)$ the median of the data measured for replicate X2
