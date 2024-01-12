@@ -76,7 +76,9 @@ This methodology has allowed us to extend IDR to arbitrary numbers of replicates
 
 # FHT-nIDR data flow
 
-We illustrate nIDR via practical use on ATAC-seq data, using a group of 3 replicates: A1, A2 and A3, where the ATAC-seq peaks correspond to the individual features $i$ described above.  We are using the output of peak calling (using macs2) on the individual replicates which generates a set of peaks, their signal strength and statistical significance (above background) as contained the `narrowPeak` file that is output from macs2.  See our ATAC-seq pipeline for more information.
+We illustrate nIDR via practical use on ATAC-seq data, using a group of 3 replicates: A1, A2 and A3, where the ATAC-seq peaks correspond to the individual features $i$ described above.  We are using the output of peak calling (using macs2) on the individual replicates which generates a set of peaks, their signal strength and statistical significance (above background) as contained the `narrowPeak` file that is output from macs2.  See our [ATAC-seq pipeline](https://github.com/FoghornTherapeutics/FHT-ATACseq-pipeline) for more information.
+
+Here is a walkthrough of the calculation, with example tables/plots for each step below:
 
 **Step 1**: Combine and merge three replicates peak id, peak origin and logFC on the same narrowPeak file. For this step, we use bedtools merge to merge the peaks. In consequence, there can be a many-to-many relationship between peaks in the replicates, and hence more than one logFC value from each replicate. <br/>
 **Step 2**: Aggregate multiple values per peak for a single replicate in merged bed file.  In other words, when there are several logFC from the same replicate for one peak, we compute the average logFC value.  If there is no peak for one of the replicates, the logFC value is set to 0 <br/>
@@ -84,7 +86,7 @@ We illustrate nIDR via practical use on ATAC-seq data, using a group of 3 replic
 **Step 4**: Compute the min percent rank of the shuffled distribution for each peak over the three replicates. In other words, we compute the percent rank of each replicates, i.e., we have three percent rank for each replicate. Then we only keep the minimum of the percent rank for each peak id. <br/>
 **Step 5**: Compute the ECDF and select the min percentage rank that corresponds to keeping above 90% of the reads.  In this example, the min percent rank is around 0.53. <br/>
 **Step 6**: Only keep peaks that have a min percent rank higher than the selected threshold from the null distribution. <br/>
-**Step 7**: Generate Empirical Cumulative Distribution Function (ECDF) plots of the min percent rank (aka consistency across replicates) of all peaks found in the group of replicates. Below is an example, the x-axis is the "min percent rank" which indicates the consistency of a peak across the replicates, a higher value corresponds to a higher consistency of peaks accross replicates. The y-axis is the fraction peaks that have at least that value. The red curve is plotting the actual data and the blue curve is the simulated null distribution. The green dashed line indicates a p-value of 0.1 based on the blue null curve and determines the consistency score threshold to use for keeping the real peaks. In this case, the green dashed line indicates the threshold where 90% of the null peaks have a consistency score below 0.53. Therefore this sets a threshold for choosing peaks with a p value < 0.1. 0.53 is considered to be a relatively high min percent rank. The null distribution is above the true values, meaning that replicates of the same group show more consistency and they are not random.
+**Step 7**: Generate Empirical Cumulative Distribution Function (ECDF) plot of the min percent rank (aka consistency across replicates) of all peaks found in the group of replicates - lower right graph below.. The x-axis is the "min percent rank" which indicates the consistency of a peak across the replicates - a higher value corresponds to a higher consistency of a peak accross the replicates. The y-axis is the fraction peaks that have at least that value. The red curve is plotting the data and the blue curve is the empirical null distribution. The green dashed line indicates a p-value of 0.1 based on the blue null curve and determines the threshold of min percent rank aka consistency score to use for keeping the peaks whose consistency value has a p-value <= 0.1. In this case, the green dashed line indicates the threshold is a min percent rank of 0.53.  As a further QC check, the null distribution is above the true values, meaning that replicates of the same group show more consistency than the empirical null.
 
 
 <img src="readme_figures/data_flow.JPG" alt="image" style="width:1000px;height:auto;">
@@ -94,7 +96,7 @@ We illustrate nIDR via practical use on ATAC-seq data, using a group of 3 replic
 # Example 1
 
 ### Data
-The standard pipeline was run on publicly available data from paper "[Chromatin accessibility underlies synthetic lethality of SWI/SNF subunits in ARID1A-mutant cancers](https://elifesciences.org/articles/30506#content)" looking for potential PD markers as well as what an ATAC-seq profile looks like. This paper has ATACseq results of ARID1A-/- cancer cell lines (native or CRISPR knockout) with ARID1B knockdown. 
+Our standard [ATAC-seq pipeline](https://github.com/FoghornTherapeutics/FHT-ATACseq-pipeline) was run on publicly available data from paper "[Chromatin accessibility underlies synthetic lethality of SWI/SNF subunits in ARID1A-mutant cancers](https://elifesciences.org/articles/30506#content)" to generate the example peak calling data used as inputs in this example use of nIDR. This paper has ATACseq results of ARID1A-/- cancer cell lines (native or CRISPR knockout) with ARID1B knockdown. 
 
 **Data from GEO series**:  [link](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE101975)
 
@@ -117,19 +119,18 @@ Overview of experiment:
 
 ### Results
 
-In this example, there are only two replicates by group. Therefore, there are only $\binom{N}{2} = \binom{2}{2}= 1$ comparison by group. This data is a good example to first verify that the peaks from the nIDR computation overlap with the standard method. 
+In this example, there are only two replicates by group. Therefore, there are only $\binom{N}{2} = \binom{2}{2}= 1$ comparison by group. This data is a good example to first verify that the peaks from the nIDR computation overlap with previous implementations. 
 
 First of all, the output from the standard IDR show that the replicates have high consitency betwen groups.
  
 <img src="readme_figures/ARID_paper_standard_IDR.JPG" alt="image" style="width:900px;height:auto;">
 
-In the same way, the results from the ECDF when using the nIDR method shows that we have a really high min percent rank around 0.65. 
+The results from nIDR also show consistency between the replicates - the ECDF of the data is substantially higher than the ECDF of the empirical null distribution. 
 
 <img src="readme_figures/HCT116_nIDR.JPG" alt="image" style="width:600px;height:auto;">
 <img src="readme_figures/TOV21G_nIDR.JPG" alt="image" style="width:600px;height:auto;">
 
-
-To compare the two IDR narrowPeak files, we study their overlap with a Ven Diagram. And we can see that the standard IDR narrowPeak is almost included in the nIDR narrowPeak. The additional peaks from nIDR could be explained by the fact that we are adding more information ?? XXXXXXXXXXXXXXXX
+For a direct comparison of the IDR implenentations we compare the overlap in peaks selected ***Flore need to add criteria for peaks selected by original IDR***.  We illustrate this comparison using Venn diagrams below. The result is that nIDR is effectively a superset of the earlier implementation of IDR, with less than 0.2% of peaks from the original IDR not present in the peaks identified by nIDR.  The higher number of peaks found by nIDR is due to the choice of p-value threshold chosen above and of course can be reduced by choosing a high stringency.  This difference is also partly due to the difference in how the p-value is calculated i.e. using the empirical null distribution which is not used in the previous implementation.
 
 <img src="readme_figures/ARID_paper_nIDR.JPG" alt="image" style="width:900px;height:auto;">
 
@@ -150,7 +151,7 @@ Overview of experiment:
 * Replicates: N=3
 
 
-First of all, the output from the standard IDR show that the replicates have high consitency betwen groups.
+First of all, the output from the standard IDR show that the replicates have high consitency betwen groups ***Flore need to describe how/why they are consistent***
 
 
 XXXXXXXXXXXXXXXX ADD OUR STANDARD OUPTUT PNG XXXXXXXXXXXXXXXX
@@ -158,22 +159,18 @@ for 24h: chosen DMSO rIDR is A2_A3.
 for 24h: chosen FHT rIDR is A5_A6.
 
 
-The ECDF shows the null distribution above the true values with a wide gap, meaning that replicates of the same group show more consistency and they are not random. The green dashed line indicates the threshold where 90% of the null peaks have a consistency score below 0.53 which is considered to be a relatively high min percent rank.
+The ECDF shows the null distribution above the true values with a substantial gap, indicating that replicates of the same group show more consistency and than the null distribution. The green dashed line indicates the threshold where 90% of the null peaks have a consistency score below 0.53, indicating our threshold for choosing peaks with p-value < 0.1.
 
 <img src="readme_figures/Example2_ECDF.JPG" alt="image" style="width:600px;height:auto;">
 
-When comparing the [Differential Peak Area (DPA) ](https://github.com/FoghornTherapeutics/FHT-ATACseq-pipeline/blob/main/README.md#2-differential-peak-area-dpa) using the regular narrowPeak IDR (rIDR) and our method nIDR, the DPA logFC are overall well correlated. This scatter plot compares the rIDR on the x-axis and the nIDR on the y-axis for each contrast (DMSO vs treatment) at 24h and 72h. The points on the x-axis or on the y-axis are ?? XXXXXXXXXXXXXXXX
-
-<img src="readme_figures/Example2_logFC_scatter_plot.JPG" alt="image" style="width:600px;height:auto;">
-
-
-Finally, we compare the overlap of peaks between the nIDR and the individual samples for the replicates at 24h. The first one is for DMSO and the second is for treatment. Most of the peaks are ?? XXXXXXXXXXXXXXXX. The second row compares the  nIDR narrowPeak and each of the pairwise regular IDR narrowPeak. Less that half of the peaks added in nDR are not part of the pairwise rIDR narrowPeak.
+We compare the overlap of peaks between the nIDR, the individual samples for the replicates at 24h, and a comparison between nIDR peaks and pairwise previous IDR. The first row is Venn Diagrams comparing nIDR to individual samples, the left figure is for DMSO and the right is for treatment. As expected / by definition, the nIDR peaks are a subset of the peaks in the individual samples.  This also illustrates the high degree of correlation between the samples, as most of their peaks overlap as well.  However to be clear the simple overlap of peaks based on genomic location does not confer any information on the consistency of the intensity above background of these peaks, and therefore does not provide enough information to choose consistent peaks. 
+The second row in the figure compares the  nIDR narrowPeak and each of the pairwise regular IDR narrowPeak. We can see that each pairwise regular IDR has good overlap with each other, but also with the results of nIDR.  We also note that nIDR has additional peaks not found in any pairwise IDR analysis; this can be do to our different method of null distribution (described above) but also due to the ability of nIDR to capture more intermediate strength peaks that are consistent across all 3 replicates that would be missed in a pairwise analysis
 
 <img src="readme_figures/Example2_VenDiagram.JPG" alt="image" style="width:600px;height:auto;">
 
+As a further comparison, we compare the [Differential Peak Area (DPA) ](https://github.com/FoghornTherapeutics/FHT-ATACseq-pipeline/blob/main/README.md#2-differential-peak-area-dpa) using the regular narrowPeak IDR (rIDR) and our method nIDR, the DPA logFC are overall well correlated. This scatter plot compares the rIDR on the x-axis and the nIDR on the y-axis for each contrast (DMSO vs treatment) at 24h and 72h. The points on the x-axis or on the y-axis are ?? XXXXXXXXXXXXXXXX
 
-
-
+<img src="readme_figures/Example2_logFC_scatter_plot.JPG" alt="image" style="width:600px;height:auto;">
 
 
 # Example 3: Groups with outlier(s)
@@ -182,7 +179,7 @@ Finally, we compare the overlap of peaks between the nIDR and the individual sam
 
 One of the challenge of this method is to compare all N replicates of a group regardless of their consistency. However, in the ATACseq pipeline described [here](https://github.com/FoghornTherapeutics/FHT-ATACseq-pipeline/blob/main/README.md), we first compute a series of QC measures (multiqc, FRiP, PCA, sample correlations) to identify any potential outliers in a group of replicates. You can find an example of a QC result that identifies an outlier [here](https://github.com/FoghornTherapeutics/FHT-ATACseq-pipeline/blob/main/QC_example_with_outlier.md). <br/>
 
-This next example compares the nIDR narrowPeak with all 3 replicates of a group with and then without the outlier in the treated group and the negative control group. 
+This next example investigates the nIDR method on a set of replicates one of which has poor QC and is not well correlated with the others. 
 
 Overview of experiment:
 * Biological context (N=1): Cell line 1
@@ -192,28 +189,25 @@ Overview of experiment:
 * Replicates: N=3
 
 
-Samples A1, A2 and A3 are for the negative control. A1 was identified as an outlier (low FRiP scores,  did not cluster with any other replicates in PCA plot and lower sample-to-sample correlation).
-Samples B1, B2 and B3 are for the negative control. B3 was also identified as an outlier (lower insret size, did not cluster with any other replicates in PCA plot and lower sample-to-sample correlation).
+Samples A1, A2 and A3 are for the negative control. A1 was identified as an outlier (low FRiP scores, did not cluster with any other replicates in PCA plot and lower sample-to-sample correlation).
+Samples B1, B2 and B3 are for the negative ***Flore check this*** control. B3 was also identified as an outlier (lower insret size, did not cluster with any other replicates in PCA plot and lower sample-to-sample correlation).
 
 
 #### Negative control group:
 
-First, we compare the standard output from rIDR, we can identify that A2 and A3 show more consistency than A1. In the same way, B1 and B2 have more overlapping peaks overall.
+First, we compare the standard output from rIDR, we can identify that A2 and A3 show more consistency than A1 ***Flore describe how***. In the same way, B1 and B2 have more overlapping peaks overall.
 
 <img src="readme_figures/Example3_rIDR.JPG" alt="image" style="width:600px;height:auto;">
 
+We apply the nIDR method on all three replicates in both groups (first row of figure below). A first striking observation compared to previous examples is that there is no longer a substantial gap between the ECDF of the real data and the null distribution, indicating that the consistency of the real data is not much better than if you randomly shuffled the peaks.  <br/>
 
-Ignoring the fact the A1 and B3 are outliers, we apply the nIDR method on all three replicates in both groups. 
-
-Visually, the min rank corresponding to 10% of kept reads computes a threshold that is not where the null distribution is above the real distribution. Quantitatively, the computed threshold is really low at about 0.35 for each group and should be above 0.5. <br/>
-
-We then apply the method removing these replicates on the second row. The true distribution is still very close to the random data. However, the min percent rank is much higher now around 0.67.
+We then apply nIDR removing the outlier samples (second row of figure below). Although the ECDF of the real data is still close to the empirical null distribution, it is lower, indicating an improvement in the consistency of the peaks when only using the 2 consistent replicates.
 
 
 <img src="readme_figures/Example3_ECDF.JPG" alt="image" style="width:600px;height:auto;">
 
 
-Finally, when removing the two replicates A1 and B3, the scatter plot of the DPA logFC shows a stronger correlation between the two  
+Finally, we compare the logFC of the differential peak area (DPA) for nIDR and regular IDR, for the case of using all three replicates, or just keeping 2 replicates.  As expected, there is better correlation between the results after removing the outlier replicates.
 
 <img src="readme_figures/Example3_logFC_scatter_plot.JPG" alt="image" style="width:600px;height:auto;">
 
