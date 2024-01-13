@@ -121,8 +121,9 @@ Overview of experiment:
 
 In this example, there are only two replicates by group. Therefore, there are only $\binom{N}{2} = \binom{2}{2}= 1$ comparison by group. This data is a good example to first verify that the peaks from the nIDR computation overlap with previous implementations. 
 
-First of all, the output from the standard IDR show that the replicates have high consitency betwen groups.
- 
+
+**FLORE addition** As part of the output of the regular IDR analysis, a corresponding image file is generated for each pair of replicates, containing four plots. The last two (bottom row), represents the reproducibility of peaks comparing the peak rank versus IDR scores. The overlaid boxplots illustrate the distribution of IDR values within each 10% quantile. By default, the IDR values are thresholded at the optimization precision of 1e-6, ensuring a refined and precise selection of peaks. Pairs with tighter, steeper curves are preferable.
+
 <img src="readme_figures/ARID_paper_standard_IDR.JPG" alt="image" style="width:900px;height:auto;">
 
 The results from nIDR also show consistency between the replicates - the ECDF of the data is substantially higher than the ECDF of the empirical null distribution. 
@@ -151,15 +152,6 @@ Overview of experiment:
 * Time point (N=2): 24h and 72h
 * Negative control (N=1): wild type / untreated
 * Replicates: N=3
-
-
-**FLORE addition** As part of the output of the regular IDR analysis, a corresponding image file is generated for each pair of replicates, containing four plots. The last two (bottom row), represents the reproducibility of peaks comparing the peak rank versus IDR scores. The overlaid boxplots illustrate the distribution of IDR values within each 10% quantile. By default, the IDR values are thresholded at the optimization precision of 1e-6, ensuring a refined and precise selection of peaks. Pairs with tighter, steeper curves are preferable. In the plots below, we chose the pair with the steepest curve. 
-
-
-XXXXXXXXXXXXXXXX ADD OUR STANDARD OUPTUT PNG XXXXXXXXXXXXXXXX
-for 24h: chosen DMSO rIDR is A2_A3.
-for 24h: chosen FHT rIDR is A5_A6.
-
 
 The ECDF shows the null distribution above the true values with a substantial gap, indicating that replicates of the same group show more consistency and than the null distribution. The green dashed line indicates the threshold where 90% of the null peaks have a consistency score below 0.53, indicating our threshold for choosing peaks with p-value < 0.1.
 
