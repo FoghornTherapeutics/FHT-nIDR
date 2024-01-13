@@ -130,7 +130,7 @@ The results from nIDR also show consistency between the replicates - the ECDF of
 <img src="readme_figures/HCT116_nIDR.JPG" alt="image" style="width:600px;height:auto;">
 <img src="readme_figures/TOV21G_nIDR.JPG" alt="image" style="width:600px;height:auto;">
 
-**FLORE addition** For a direct comparison of the IDR implementations, we compare the overlap in peaks selected between the regular IDR (rIDR) narrowPeak and our method nIDR. To remind ourselves, the IDR algorithm involves several key steps to enhance the reliability of peak calling by assessing reproducibility across experimental replicates. Initially, the algorithm separates peaks into two groups by sampling from both signal and noise distributions, aiming to distinguish genuine peaks from background noise. Peaks are then ranked based on signal strength and consistency, and a chosen p-value cutoff helps identify statistically significant peaks. In our case, we use the --soft-idr-threshold parameter equal to 0.1, providing flexibility in the identification of peaks that may exhibit slight variations across replicates. Finally, the algorithm requires the narrowPeak files to be sorted based on the -log10(p-value) column for further analysis and interpretation.
+**FLORE addition** For a direct comparison of the IDR implementations, we compare the overlap in peaks selected between the regular IDR narrowPeak and our method nIDR. To remind ourselves, the IDR algorithm involves several key steps to enhance the reliability of peak calling by assessing reproducibility across experimental replicates. Initially, the algorithm separates peaks into two groups by sampling from both signal and noise distributions, aiming to distinguish genuine peaks from background noise. Peaks are then ranked based on signal strength and consistency, and a chosen p-value cutoff helps identify statistically significant peaks. In our case, we use the --soft-idr-threshold parameter equal to 0.1, providing flexibility in the identification of peaks that may exhibit slight variations across replicates. Finally, the algorithm requires the narrowPeak files to be sorted based on the -log10(p-value) column for further analysis and interpretation.
 
 We illustrate this comparison using Venn diagrams below. The result is that nIDR is effectively a superset of the earlier implementation of IDR, with less than 0.2% of peaks from the original IDR not present in the peaks identified by nIDR.  The higher number of peaks found by nIDR is due to the choice of p-value threshold chosen above and of course can be reduced by choosing a high stringency.  This difference is also partly due to the difference in how the p-value is calculated i.e. using the empirical null distribution which is not used in the previous implementation.
 
@@ -153,7 +153,7 @@ Overview of experiment:
 * Replicates: N=3
 
 
-**FLORE addition** As part of the output of the rIDR analysis, a corresponding image file is generated for each pair of replicates, containing four plots. The last two (bottom row), represents the reproducibility of peaks comparing the peak rank versus IDR scores. The overlaid boxplots illustrate the distribution of IDR values within each 10% quantile. By default, the IDR values are thresholded at the optimization precision of 1e-6, ensuring a refined and precise selection of peaks. Pairs with tighter, steeper curves are preferable. In the plots below, we chose the pair with the steepest curve. 
+**FLORE addition** As part of the output of the regular IDR analysis, a corresponding image file is generated for each pair of replicates, containing four plots. The last two (bottom row), represents the reproducibility of peaks comparing the peak rank versus IDR scores. The overlaid boxplots illustrate the distribution of IDR values within each 10% quantile. By default, the IDR values are thresholded at the optimization precision of 1e-6, ensuring a refined and precise selection of peaks. Pairs with tighter, steeper curves are preferable. In the plots below, we chose the pair with the steepest curve. 
 
 
 XXXXXXXXXXXXXXXX ADD OUR STANDARD OUPTUT PNG XXXXXXXXXXXXXXXX
@@ -166,11 +166,12 @@ The ECDF shows the null distribution above the true values with a substantial ga
 <img src="readme_figures/Example2_ECDF.JPG" alt="image" style="width:600px;height:auto;">
 
 We compare the overlap of peaks between the nIDR, the individual samples for the replicates at 24h, and a comparison between nIDR peaks and pairwise previous IDR. The first row is Venn Diagrams comparing nIDR to individual samples, the left figure is for DMSO and the right is for treatment. As expected / by definition, the nIDR peaks are a subset of the peaks in the individual samples.  This also illustrates the high degree of correlation between the samples, as most of their peaks overlap as well.  However to be clear the simple overlap of peaks based on genomic location does not confer any information on the consistency of the intensity above background of these peaks, and therefore does not provide enough information to choose consistent peaks. 
+
 The second row in the figure compares the  nIDR narrowPeak and each of the pairwise regular IDR narrowPeak. We can see that each pairwise regular IDR has good overlap with each other, but also with the results of nIDR.  We also note that nIDR has additional peaks not found in any pairwise IDR analysis; this can be do to our different method of null distribution (described above) but also due to the ability of nIDR to capture more intermediate strength peaks that are consistent across all 3 replicates that would be missed in a pairwise analysis
 
 <img src="readme_figures/Example2_VenDiagram.JPG" alt="image" style="width:600px;height:auto;">
 
-As a further comparison, we compare the [Differential Peak Area (DPA) ](https://github.com/FoghornTherapeutics/FHT-ATACseq-pipeline/blob/main/README.md#2-differential-peak-area-dpa) using the regular narrowPeak IDR (rIDR) and our method nIDR, the DPA logFC are overall well correlated. This scatter plot compares the rIDR on the x-axis and the nIDR on the y-axis for each contrast (DMSO vs treatment) at 24h and 72h. The points on the x-axis or on the y-axis are ?? XXXXXXXXXXXXXXXX
+As a further comparison, we compare the [Differential Peak Area (DPA) ](https://github.com/FoghornTherapeutics/FHT-ATACseq-pipeline/blob/main/README.md#2-differential-peak-area-dpa) using the regular IDR narrowPeak and our method nIDR, the DPA logFC are overall well correlated. This scatter plot compares the DPA logFC from the regular IDR on the x-axis and from the nIDR on the y-axis for each contrast (DMSO vs treatment) at 24h and 72h. 
 
 <img src="readme_figures/Example2_logFC_scatter_plot.JPG" alt="image" style="width:600px;height:auto;">
 
@@ -197,7 +198,7 @@ Samples B1, B2 and B3 are for the negative ***Flore check this*** control. B3 wa
 
 #### Negative control group:
 
-First, we compare the standard output from rIDR, we can identify that A2 and A3 show more consistency than A1 ***Flore describe how***. In the same way, B1 and B2 have more overlapping peaks overall.
+**FLORE addition** First, we compare the standard output from the regular IDR, we can see that the boxplot curve between A2 and A3 is much steeper, indicating that A2 and A3 have more consistency than A1. In the same way, B1 and B2 boxplot curve is steeper, indicating more overlapping peaks overall between the two replicates.
 
 <img src="readme_figures/Example3_rIDR.JPG" alt="image" style="width:600px;height:auto;">
 
