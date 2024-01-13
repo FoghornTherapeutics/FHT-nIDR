@@ -198,7 +198,7 @@ Samples B1, B2 and B3 are for the negative ***Flore check this*** control. B3 wa
 
 #### Negative control group:
 
-**FLORE addition** First, we compare the standard output from the regular IDR, we can see that the boxplot curve between A2 and A3 is much steeper, indicating that A2 and A3 have more consistency than A1. In the same way, B1 and B2 boxplot curve is steeper, indicating more overlapping peaks overall between the two replicates.
+**FLORE addition** First, we compare the standard output from the regular IDR, we can see that the boxplot curve between A2 and A3 is much steeper, indicating that A2 and A3 have more consistency than A1. It is less obvious for the negative control group but the comparison between B1 and B2 boxplot curve is slightly steeper.
 
 <img src="readme_figures/Example3_rIDR.JPG" alt="image" style="width:600px;height:auto;">
 
