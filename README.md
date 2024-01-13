@@ -153,15 +153,7 @@ Overview of experiment:
 * Replicates: N=3
 
 
-As part of the output of the rIDR analysis, a corresponding image file is generated for each pair of replicates, containing four plots. The last two (bottom row), represents the reproducibility of peaks comparing the peak rank versus IDR scores. The overlaid boxplots illustrate the distribution of IDR values within each 5% quantile. By default, the IDR values are thresholded at the optimization precision of 1e-6, ensuring a refined and precise selection of peaks.
-
-
-
-
-
-Pairs with tighter, steeper curves are preferable.
-
-the output from the standard IDR show that the replicates have high consitency betwen groups ***Flore need to describe how/why they are consistent***
+**FLORE addition** As part of the output of the rIDR analysis, a corresponding image file is generated for each pair of replicates, containing four plots. The last two (bottom row), represents the reproducibility of peaks comparing the peak rank versus IDR scores. The overlaid boxplots illustrate the distribution of IDR values within each 10% quantile. By default, the IDR values are thresholded at the optimization precision of 1e-6, ensuring a refined and precise selection of peaks. Pairs with tighter, steeper curves are preferable. In the plots below, we chose the pair with the steepest curve. 
 
 
 XXXXXXXXXXXXXXXX ADD OUR STANDARD OUPTUT PNG XXXXXXXXXXXXXXXX
