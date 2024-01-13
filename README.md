@@ -130,7 +130,9 @@ The results from nIDR also show consistency between the replicates - the ECDF of
 <img src="readme_figures/HCT116_nIDR.JPG" alt="image" style="width:600px;height:auto;">
 <img src="readme_figures/TOV21G_nIDR.JPG" alt="image" style="width:600px;height:auto;">
 
-For a direct comparison of the IDR implenentations we compare the overlap in peaks selected ***Flore need to add criteria for peaks selected by original IDR***.  We illustrate this comparison using Venn diagrams below. The result is that nIDR is effectively a superset of the earlier implementation of IDR, with less than 0.2% of peaks from the original IDR not present in the peaks identified by nIDR.  The higher number of peaks found by nIDR is due to the choice of p-value threshold chosen above and of course can be reduced by choosing a high stringency.  This difference is also partly due to the difference in how the p-value is calculated i.e. using the empirical null distribution which is not used in the previous implementation.
+**FLORE addition** For a direct comparison of the IDR implementations, we compare the overlap in peaks selected between the regular IDR (rIDR) narrowPeak and our method nIDR. To remind ourselves, the IDR algorithm involves several key steps to enhance the reliability of peak calling by assessing reproducibility across experimental replicates. Initially, the algorithm separates peaks into two groups by sampling from both signal and noise distributions, aiming to distinguish genuine peaks from background noise. Peaks are then ranked based on signal strength and consistency, and a chosen p-value cutoff helps identify statistically significant peaks. In our case, we use the --soft-idr-threshold parameter equal to 0.1, providing flexibility in the identification of peaks that may exhibit slight variations across replicates. Finally, the algorithm requires the narrowPeak files to be sorted based on the -log10(p-value) column for further analysis and interpretation.
+
+We illustrate this comparison using Venn diagrams below. The result is that nIDR is effectively a superset of the earlier implementation of IDR, with less than 0.2% of peaks from the original IDR not present in the peaks identified by nIDR.  The higher number of peaks found by nIDR is due to the choice of p-value threshold chosen above and of course can be reduced by choosing a high stringency.  This difference is also partly due to the difference in how the p-value is calculated i.e. using the empirical null distribution which is not used in the previous implementation.
 
 <img src="readme_figures/ARID_paper_nIDR.JPG" alt="image" style="width:900px;height:auto;">
 
@@ -151,7 +153,15 @@ Overview of experiment:
 * Replicates: N=3
 
 
-First of all, the output from the standard IDR show that the replicates have high consitency betwen groups ***Flore need to describe how/why they are consistent***
+As part of the output of the rIDR analysis, a corresponding image file is generated for each pair of replicates, containing four plots. The last two (bottom row), represents the reproducibility of peaks comparing the peak rank versus IDR scores. The overlaid boxplots illustrate the distribution of IDR values within each 5% quantile. By default, the IDR values are thresholded at the optimization precision of 1e-6, ensuring a refined and precise selection of peaks.
+
+
+
+
+
+Pairs with tighter, steeper curves are preferable.
+
+the output from the standard IDR show that the replicates have high consitency betwen groups ***Flore need to describe how/why they are consistent***
 
 
 XXXXXXXXXXXXXXXX ADD OUR STANDARD OUPTUT PNG XXXXXXXXXXXXXXXX
