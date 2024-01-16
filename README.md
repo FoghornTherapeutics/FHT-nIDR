@@ -32,7 +32,7 @@ Restating the above:  the indicator function $1(...)$ is 1 if for feature $i$ th
 
 With the above understanding, we can do some mathematical rearrangements to develop an algorithm that allows us to more easily extend this to multiple replicates.  Note that Li et al also address this in section 4 of their supplemental "Extension of our model to the case of m > 2"; our goal here is rearrange for our understanding and to make reasonably efficient computer code.
 
-define $frac\textunderscore rank\textunderscore X1$ as the fractional rank of $X1$ - a vector where each entry is the fractional rank of the corresponding $i$ th value in X1
+Define $frac\textunderscore rank\textunderscore X1$ as the fractional rank of $X1$ - a vector where each entry is the fractional rank of the corresponding $i$ th value in X1
 
 $$frac\textunderscore rank\textunderscore X1_i = \frac{index\textunderscore of\textunderscore sorted\textunderscore X1(i)}{N}$$
 
