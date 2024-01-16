@@ -24,7 +24,7 @@ To help us understand how this works we use this illustrative example for $t=0.5
 * $median_{X1} = x_{X1}(t=0.5)$ the median of the data measured for replicate X1
 * $median_{X2} = x_{X2}(t=0.5)$ the median of the data measured for replicate X2
 
-then:
+Then:
 
 $$\psi(t=0.5) = \frac{1}{N} \sum_{i=1}^{N}{1 \left( X1_i>median_{X1},X2_i>median_{X2} \right) } $$
 
@@ -36,11 +36,11 @@ Define $frac\textunderscore rank\textunderscore X1$ as the fractional rank of $X
 
 $$frac\textunderscore rank\textunderscore X1_i = \frac{index\textunderscore of\textunderscore sorted\textunderscore X1(i)}{N}$$
 
-Then:
+Then the inequality above can be rewritten:
 
 $$ X1_i>x_{X1}(t) = frac\textunderscore rank\textunderscore X1_i>t $$
 
-The equation for $\psi$ can be rewritten as:
+Using the above defintion, the equation for $\psi$ can be rewritten as:
 
 $$\psi(t) = \frac{1}{N} \sum_{i=1}^{N}{1(frac\textunderscore rank\textunderscore X1_i>t, frac\textunderscore rank\textunderscore X2_i>t)} $$
 
@@ -48,13 +48,13 @@ The indicator function $1(...)$ and its arguments can be rewritten as:
   
 $$1\Bigl(min[frac\textunderscore rank\textunderscore X1, frac\textunderscore rank\textunderscore X2]>t\Bigr)$$
 
-yielding:
+In otherwords, the original indicator function is equivalent to comparing the minimum fraction rank of peak $i$ across replicates to the fractional rank $t$.  Substituting this into the equation for $\psi(t)$ yields:
 
-$$\psi(t) = \frac{1}{N} \sum_{i=1}^{N}{1 \Bigl(min(frac\textunderscore rank\textunderscore X1_i,frac\textunderscore rank\textunderscore X2_i)>t \Bigr)} $$
+$$\psi(t) = \frac{1}{N} \sum_{i=1}^{N}{1 \Bigl(min[frac\textunderscore rank\textunderscore X1_i,frac\textunderscore rank\textunderscore X2_i] > t \Bigr)} $$
 
-With the above, instead of calcuating the sum for each value of $t$ we can generate an ECDF (empirical cumulative distribution) of the above  To do that, we first, create the vector of values $min\textunderscore rank$ such that:
+With the above rearrangement, we can see that instead of calcuating the sum for each value of $t$ we can generate an ECDF (empirical cumulative distribution) of the $min[frac\textunderscore rank\textunderscore X1_i,frac\textunderscore rank\textunderscore X2_i]$ values, and that will be equivalent to $\psi(t)$.  To generate the ECDF we first, create the vector of values $min\textunderscore rank$ such that:
 
-$$min\textunderscore rank_i = min(frac\textunderscore rank\textunderscore X1_i, frac\textunderscore rank\textunderscore X2_i))$$
+$$min\textunderscore rank_i = min[frac\textunderscore rank\textunderscore X1_i, frac\textunderscore rank\textunderscore X2_i]$$
 
 Sort the above to create $sort\textunderscore min\textunderscore rank$ such that:
 
