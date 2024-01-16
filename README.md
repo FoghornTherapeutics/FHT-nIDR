@@ -121,8 +121,7 @@ Overview of experiment:
 
 In this example, there are only two replicates by group. Therefore, there are only $\binom{N}{2} = \binom{2}{2}= 1$ comparison by group. This data is a good example to first verify that the peaks from the nIDR computation overlap with previous implementations. 
 
-
-**FLORE addition** As part of the output of the regular IDR analysis, a corresponding image file is generated for each pair of replicates, containing four plots. The last two (bottom row), represents the reproducibility of peaks comparing the peak rank versus IDR scores. The overlaid boxplots illustrate the distribution of IDR values within each 10% quantile. By default, the IDR values are thresholded at the optimization precision of 1e-6, ensuring a refined and precise selection of peaks. Pairs with tighter, steeper curves are preferable.
+As part of the output of the regular IDR analysis, a corresponding image file is generated for each pair of replicates, containing four plots. The last two (bottom row), represents the reproducibility of peaks comparing the peak rank versus IDR scores. The overlaid boxplots illustrate the distribution of IDR values within each 10% quantile. By default, the IDR values are thresholded at the optimization precision of 1e-6, ensuring a refined and precise selection of peaks. Pairs with tighter, steeper curves are preferable.
 
 <img src="readme_figures/ARID_paper_standard_IDR.JPG" alt="image" style="width:900px;height:auto;">
 
@@ -131,7 +130,7 @@ The results from nIDR also show consistency between the replicates - the ECDF of
 <img src="readme_figures/HCT116_nIDR.JPG" alt="image" style="width:600px;height:auto;">
 <img src="readme_figures/TOV21G_nIDR.JPG" alt="image" style="width:600px;height:auto;">
 
-**FLORE addition** For a direct comparison of the IDR implementations, we compare the overlap in peaks selected between the regular IDR narrowPeak and our method nIDR. To remind ourselves, the IDR algorithm involves several key steps to enhance the reliability of peak calling by assessing reproducibility across experimental replicates. Initially, the algorithm separates peaks into two groups by sampling from both signal and noise distributions, aiming to distinguish genuine peaks from background noise. Peaks are then ranked based on signal strength and consistency, and a chosen p-value cutoff helps identify statistically significant peaks. In our case, we use the `--soft-idr-threshold` parameter equal to 0.1, providing flexibility in the identification of peaks that may exhibit slight variations across replicates. Finally, the algorithm requires the narrowPeak files to be sorted based on the -log10(p-value) column for further analysis and interpretation.
+For a direct comparison of the IDR implementations, we compare the overlap in peaks selected between the regular IDR narrowPeak and our method nIDR. To remind ourselves, the IDR algorithm involves several key steps to enhance the reliability of peak calling by assessing reproducibility across experimental replicates. Initially, the algorithm separates peaks into two groups by sampling from both signal and noise distributions, aiming to distinguish genuine peaks from background noise. Peaks are then ranked based on signal strength and consistency, and a chosen p-value cutoff helps identify statistically significant peaks. In our case, we use the `--soft-idr-threshold` parameter equal to 0.1, providing flexibility in the identification of peaks that may exhibit slight variations across replicates. Finally, the algorithm requires the narrowPeak files to be sorted based on the -log10(p-value) column for further analysis and interpretation.
 
 We illustrate this comparison using Venn diagrams below. The result is that nIDR is effectively a superset of the earlier implementation of IDR, with less than 0.2% of peaks from the original IDR not present in the peaks identified by nIDR.  The higher number of peaks found by nIDR is due to the choice of p-value threshold chosen above and of course can be reduced by choosing a high stringency.  This difference is also partly due to the difference in how the p-value is calculated i.e. using the empirical null distribution which is not used in the previous implementation.
 
@@ -185,12 +184,12 @@ Overview of experiment:
 
 
 Samples A1, A2 and A3 are for the negative control. A1 was identified as an outlier (low FRiP scores, did not cluster with any other replicates in PCA plot and lower sample-to-sample correlation).
-Samples B1, B2 and B3 are for the negative ***Flore check this*** control. B3 was also identified as an outlier (lower insret size, did not cluster with any other replicates in PCA plot and lower sample-to-sample correlation).
+Samples B1, B2 and B3 are for the negative control. B3 was also identified as an outlier (lower insret size, did not cluster with any other replicates in PCA plot and lower sample-to-sample correlation).
 
 
 #### Negative control group:
 
-**FLORE addition** First, we compare the standard output from the regular IDR, we can see that the boxplot curve between A2 and A3 is much steeper, indicating that A2 and A3 have more consistency than A1. It is less obvious for the negative control group but the comparison between B1 and B2 boxplot curve is slightly steeper.
+First, we compare the standard output from the regular IDR, we can see that the boxplot curve between A2 and A3 is much steeper, indicating that A2 and A3 have more consistency than A1. It is less obvious for the negative control group but the comparison between B1 and B2 boxplot curve is slightly steeper.
 
 <img src="readme_figures/Example3_rIDR.JPG" alt="image" style="width:600px;height:auto;">
 
