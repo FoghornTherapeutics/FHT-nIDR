@@ -13,8 +13,8 @@ $$\psi(t) = \frac{1}{N} \sum_{i=1}^{N}{1 \left( X1_i>x_{X1}(t), X2_i>x_{X2}(t) \
 
 * $N$ number of features i.e. peaks
 * $1(...)$ is an [indicator function](https://en.wikipedia.org/wiki/Indicator_function) that returns $1$ if all the arguments are true otherwise returns 0
-* $X1_i$ values observed in replicate X1 for $i$ th feature
-* $X2_i$ values observed in replicate X2 for $i$ th feature
+* $X1_i$ value observed in replicate X1 for $i$ th feature
+* $X2_i$ value observed in replicate X2 for $i$ th feature
 * $t$ is the fractional rank i.e. number from 0 to 1
 * $x_{X1}(t)$ percentile value of replicate X1.  i.e. $x_{X1}(0.5)$ is the 50th percentile aka median of the data for replicate X1
 * $x_{X2}(t)$ percentile value of replicate X2.  i.e. $x_{X2}(0.5)$ is the 50th percentile aka median of the data for replicate X2
